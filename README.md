@@ -1,0 +1,2 @@
+# infector
+inversify + effector integration
