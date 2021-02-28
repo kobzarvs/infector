@@ -1,0 +1,19 @@
+{
+  "name": "infector",
+  "private": true,
+  "main": "packages/main-react-app/index.js",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "scripts": {
+    "test": "yarn",
+    "prepare": "lerna run prepare",
+    "watch": "lerna run --parallel watch",
+    "publish": "yarn && yarn publish:latest",
+    "publish:latest": "lerna publish",
+    "publish:next": "lerna publish --exact --canary=next --npm-tag=next --yes"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
