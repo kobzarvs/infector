@@ -6,6 +6,7 @@
     "lerna": "^3.22.1"
   },
   "scripts": {
+    "start": "yarn --cwd ./packages/main-react-app start",
     "test": "yarn",
     "prepare": "lerna run prepare",
     "watch": "lerna run --parallel watch",
