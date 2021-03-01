@@ -6,8 +6,8 @@ export const IModel = Symbol('IModel')
 
 export interface IModel {
     counter: Store<number>
-    inc: Event<void | any>
-    dec: Event<void | any>
+    inc: Event<void>
+    dec: Event<void>
 }
 
 let instances = 0

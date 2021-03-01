@@ -7567,18 +7567,6 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-inversify-inject-decorators@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/inversify-inject-decorators/-/inversify-inject-decorators-3.1.0.tgz#d9941080bad77cec8a65ee29d905e4d5d73e1e95"
-  integrity sha512-/seBlVp5bXrLQS3DpKEmlgeZL6C7Tf/QITd+IMQrbBBGuCbxb7k3hRAWu9XSreNpFzLgSboz3sClLSEmGwHphw==
-
-inversify-react@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/inversify-react/-/inversify-react-0.4.3.tgz#a4dd195e14ab6c5a8c3407349e676cbf2900224f"
-  integrity sha512-pTUAOJFUbGZ1goPoxc0glnfriCl+oTlS6NQNmQglJoudPyVZHVhyuahR5z1dtog8JK5bPxQXYcGuMUFlkOhpSw==
-  dependencies:
-    prop-types "^15.7.2"
-
 inversify@^5.0.5:
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/inversify/-/inversify-5.0.5.tgz#bd1f8e6d8e0f739331acd8ba9bc954635aae0bbf"
