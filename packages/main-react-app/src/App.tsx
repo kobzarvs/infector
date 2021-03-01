@@ -1,7 +1,8 @@
-import React, {useMemo, useState} from 'react'
+import React, {useState} from 'react'
 import {Counter} from './components/Counter/Counter'
 import './App.css'
-
+import {singletonFlag, toggleSingleton} from './components/Counter/di.config'
+import {useStore} from "effector-react";
 
 let instances = 0
 
@@ -11,7 +12,7 @@ export const App = () => {
     ])
 
     function remove(id: number | string | symbol) {
-        setCounters(counters => counters.filter(counter => counter.props.id !== id))
+        setCounters(items => items.filter(counter => counter.props.id !== id))
     }
 
     const addCounter = () => {
@@ -24,7 +25,13 @@ export const App = () => {
 
     return (
         <div>
-            <button onClick={addCounter}>Add Counter</button>
+            <div style={{display: 'flex', alignItems: 'center', margin: 10}}>
+                <button onClick={addCounter}>Add Counter</button>
+                <label style={{marginLeft: 10}}>
+                    <input type="checkbox" checked={useStore(singletonFlag)} onChange={() => toggleSingleton()}/>
+                    inSingletonScope
+                </label>
+            </div>
             <hr/>
             <div>{counters}</div>
         </div>

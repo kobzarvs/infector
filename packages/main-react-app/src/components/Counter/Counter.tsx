@@ -3,7 +3,7 @@ import {useStore} from 'effector-react';
 import {counterContainer, ICounter} from "./di.config";
 
 
-type PropsTypes = {
+interface PropsTypes {
     id: number | string | symbol
     remove: (id: number | string | symbol) => void
 }

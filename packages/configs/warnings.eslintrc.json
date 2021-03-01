@@ -29,13 +29,10 @@
     "spaced-comment": "off",
     "use-isnan": "warn",
     // @typescript-eslint/eslint-plugin
-    "@typescript-eslint/explicit-function-return-type": [
-      "warn",
-      {
-        "allowExpressions": true
-      }
-    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/type-annotation-spacing": "warn"
+    "@typescript-eslint/type-annotation-spacing": "warn",
+    "@typescript-eslint/no-redeclare": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
