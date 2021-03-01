@@ -1,9 +1,9 @@
-import {createEvent, createStore, Store, Event} from 'effector'
-import {inject, injectable, optional, postConstruct} from 'inversify'
-import {IModel} from '@infector/model/lib'
+import {createEvent, Event, Store} from 'effector'
+import {inject, injectable, postConstruct} from 'inversify'
 
 
 export const IModelAddon = Symbol('ModelAddon')
+export const IExternalStore = Symbol('IExternalStore')
 
 export interface IModelAddon {
     add: Event<number>
@@ -14,15 +14,14 @@ let instances = 0
 
 @injectable()
 export class ModelAddon implements IModelAddon {
-    @inject(IModel) private readonly model: IModel
+    @inject(IExternalStore) private readonly store: Store<number>
     public add = createEvent<number>()
     public sub = createEvent<number>()
 
     @postConstruct()
     init(): void {
-        instances++
-        console.log('ModelAddon instance:', instances, this)
-        this.model.counter
+        console.log('ModelAddon', ++instances)
+        this.store
             .on(this.add, (state, value) => state + value)
             .on(this.sub, (state, value) => state - value)
     }

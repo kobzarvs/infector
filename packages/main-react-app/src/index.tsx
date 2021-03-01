@@ -1,16 +1,14 @@
-import "reflect-metadata";
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import {App} from './App';
-import reportWebVitals from './reportWebVitals';
-// import { Provider } from "inversify-react"
-// import {container} from '@infector/model/lib'
+import 'reflect-metadata'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import {App} from './App'
+import reportWebVitals from './reportWebVitals'
 
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+    <App/>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

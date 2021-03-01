@@ -1,12 +1,7 @@
-import {Container, ContainerModule} from 'inversify'
+import {ContainerModule} from 'inversify'
 import {IModel, Model} from './model'
 
 
-export const modelContainerModule = new ContainerModule((bind) => {
-    // bind(Model).toSelf().inSingletonScope()
-    // bind(IModel).toService(Model)
-    bind(IModel).to(Model).inSingletonScope()
+export const modelModule = new ContainerModule((bind) => {
+    bind(IModel).to(Model)
 })
-
-export const modelContainer = new Container()
-modelContainer.load(modelContainerModule)

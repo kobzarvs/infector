@@ -1,22 +1,32 @@
-import React, {useState} from 'react';
-import {Counter} from "./components/Counter";
-import './App.css';
+import React, {useMemo, useState} from 'react'
+import {Counter} from './components/Counter/Counter'
+import './App.css'
 
+
+let instances = 0
 
 export const App = () => {
-    const [counters, setCounters] = useState<JSX.Element[]>([<Counter key={0}/>])
+    const [counters, setCounters] = useState<JSX.Element[]>([
+        <Counter key={instances} remove={remove} id={instances}/>
+    ])
+
+    function remove(id: number | string | symbol) {
+        setCounters(counters => counters.filter(counter => counter.props.id !== id))
+    }
 
     const addCounter = () => {
-        setCounters((state) => [...state, <Counter key={state.length}/>])
+        ++instances
+        setCounters((state) => [
+            ...state,
+            <Counter key={instances} remove={remove} id={instances}/>
+        ])
     }
 
     return (
         <div>
             <button onClick={addCounter}>Add Counter</button>
-
-            <div>
-                {counters}
-            </div>
+            <hr/>
+            <div>{counters}</div>
         </div>
-    );
+    )
 }

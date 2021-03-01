@@ -10,6 +10,8 @@ export interface IModel {
     dec: Event<void | any>
 }
 
+let instances = 0
+
 @injectable()
 export class Model implements IModel {
     public counter = createStore(0)
@@ -18,6 +20,7 @@ export class Model implements IModel {
 
     @postConstruct()
     init(): void {
+        console.log('Model', ++instances)
         this.counter
             .on(this.inc, value => value + 1)
             .on(this.dec, value => value - 1)
