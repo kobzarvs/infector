@@ -59,12 +59,7 @@
     "arrow-body-style": "off",
     "arrow-parens": "off",
     "no-var": "error",
-    "prefer-const": [
-      "error",
-      {
-        "destructuring": "all"
-      }
-    ],
+    "prefer-const": "off",
     // @typescript-eslint/eslint-plugin
     "@typescript-eslint/class-name-casing": "off",
     "@typescript-eslint/consistent-type-definitions": "error",

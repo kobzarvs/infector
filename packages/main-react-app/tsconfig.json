@@ -23,5 +23,6 @@
   },
   "include": [
     "src"
-  ]
+  ],
+  "extends": "../configs/base.tsconfig.json"
 }

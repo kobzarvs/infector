@@ -10,20 +10,10 @@
     "no-invalid-this": "warn",
     "no-new-wrappers": "warn",
     "no-return-await": "warn",
-    "no-shadow": [
-      "warn",
-      {
-        "hoist": "all"
-      }
-    ],
+    "no-shadow": "off",
     "no-trailing-spaces": "warn",
     "no-void": "warn",
-    "prefer-const": [
-      "warn",
-      {
-        "destructuring": "all"
-      }
-    ],
+    "prefer-const": "off",
     "prefer-object-spread": "warn",
     "radix": "warn",
     "spaced-comment": "off",
