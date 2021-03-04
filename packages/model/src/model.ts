@@ -5,16 +5,16 @@ import {injectable, postConstruct} from "inversify";
 export const IModel = Symbol('IModel')
 
 export interface IModel {
-    counter: Store<number>
-    inc: Event<void>
-    dec: Event<void>
+    inc: Event<void | any>;
+    dec: Event<void | any>;
+    getStore: () => Store<number>;
 }
 
 let instances = 0
 
 @injectable()
 export class Model implements IModel {
-    public counter = createStore(0)
+    private counter = createStore(0)
     public inc = createEvent()
     public dec = createEvent()
 
@@ -24,5 +24,9 @@ export class Model implements IModel {
         this.counter
             .on(this.inc, value => value + 1)
             .on(this.dec, value => value - 1)
+    }
+
+    getStore = (): Store<number> => {
+        return this.counter
     }
 }

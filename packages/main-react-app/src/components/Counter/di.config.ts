@@ -1,48 +1,38 @@
-import {Container, ContainerModule} from 'inversify'
+import {Container, interfaces} from 'inversify'
 import {IModel, modelModule} from '@infector/model/lib'
-import {IModelAddon, modelAddonModule} from '@infector/model-addon/lib'
-import {createEvent, createStore, Event, Store} from "effector";
+import {IExternalStore, IModelAddon, modelAddonModule} from '@infector/model-addon/lib'
+import {singletonContainer} from '../SingletonCheckbox/di.config'
+import {DEFAULT_FLAG_VALUE, TOGGLE_CALLBACK} from '../SingletonCheckbox/model'
+
 
 export const ICounter = Symbol('ICounter')
-
-export const singletonFlag = createStore(false)
-export const toggleSingleton = createEvent()
-singletonFlag.on(toggleSingleton, state => !state)
-
-
-export interface ICounter {
-    // from IModel
-    counter: Store<number>;
-
-    inc(): Event<void | any>;
-
-    dec(): Event<void | any>;
-
-    // from IModelAddon
-    add(dx: number): Event<void | any>;
-
-    sub(dx: number): Event<void | any>;
-}
-
-export const counterModule = new ContainerModule(bind => {
-    const binding = bind(ICounter).toDynamicValue(ctx => {
-        const model = ctx.container.get<IModel>(IModel)
-        // pass model instance to ModelAddon container creator
-        const addon = ctx.container.getTagged<IModelAddon>(IModelAddon, IModel, model)
-        return ({
-            ...model,
-            ...addon
-        })
-    })
-
-    singletonFlag.getState() && binding.inSingletonScope()
-})
-
+export type ICounter = IModel & IModelAddon
 
 export const counterContainer = new Container()
-counterContainer.load(counterModule, modelModule, modelAddonModule)
+counterContainer.load(modelModule, modelAddonModule)
 
-toggleSingleton.watch(() => {
-    counterContainer.unload(counterModule)
-    counterContainer.load(counterModule)
-})
+function createCounter(ctx: interfaces.Context) {
+  const model = ctx.container.get<IModel>(IModel)
+  const addon = ctx.container.getTagged<IModelAddon>(IModelAddon, IExternalStore, model.getStore())
+
+  return {
+    getStore: model.getStore,
+    inc: model.inc,
+    dec: model.dec,
+    add: addon.add,
+    sub: addon.sub,
+  }
+}
+
+const setSingletonMode = (mode: boolean) => {
+  counterContainer.isBound(ICounter) && counterContainer.unbind(ICounter)
+  const binding = counterContainer.bind(ICounter).toDynamicValue(createCounter)
+  if (mode) {
+    binding.inSingletonScope()
+  } else {
+    binding.inTransientScope()
+  }
+}
+
+singletonContainer.bind(TOGGLE_CALLBACK).toFunction(setSingletonMode)
+setSingletonMode(singletonContainer.get(DEFAULT_FLAG_VALUE))
