@@ -104,3 +104,5 @@ ICounter будет создавать новый инстанс со своим
 ```
 
 Последняя команда запустит `packages/model-addon/src/example.ts`
+
+![infector](https://user-images.githubusercontent.com/1615093/109965954-b54b1200-7d00-11eb-9b95-30ff100898ad.gif)
