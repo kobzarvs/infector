@@ -89,17 +89,17 @@ ICounter будет создавать новый инстанс со своим
 ## Сборка и запуск вэб приложения
 
 ```shell
-#infector> yarn && yarn start
+infector> yarn && yarn start
 ```
 
 ## Поэкспериментировать с модулями
 
 ```shell
-#infector> yarn build:model
+infector> yarn build:model
 
-#infector> yarn build:addon
+infector> yarn build:addon
 
-#infector> yarn test:addon
+infector> yarn test:addon
 
 ```
 
