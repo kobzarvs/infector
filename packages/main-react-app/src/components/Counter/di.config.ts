@@ -1,17 +1,18 @@
 import {Container, interfaces} from 'inversify'
 import {IModel, modelModule} from '@infector/model/lib'
 import {IExternalStore, IModelAddon, modelAddonModule} from '@infector/model-addon/lib'
-import {singletonContainer} from '../SingletonCheckbox/di.config'
-import {DEFAULT_FLAG_VALUE, TOGGLE_CALLBACK} from '../SingletonCheckbox/model'
 
 
 export const ICounter = Symbol('ICounter')
-export type ICounter = IModel & IModelAddon
+
+export interface ICounter extends IModel, IModelAddon {
+  destroy: () => void
+}
 
 export const counterContainer = new Container()
 counterContainer.load(modelModule, modelAddonModule)
 
-function createCounter(ctx: interfaces.Context) {
+function createCounter(ctx: interfaces.Context): ICounter {
   const model = ctx.container.get<IModel>(IModel)
   const addon = ctx.container.getTagged<IModelAddon>(IModelAddon, IExternalStore, model.getStore())
 
@@ -21,18 +22,20 @@ function createCounter(ctx: interfaces.Context) {
     dec: model.dec,
     add: addon.add,
     sub: addon.sub,
+    destroy: () => {
+      // уничтожать можно только объекты не входящим в singleton scope
+      if (ctx.currentRequest.target.matchesTag('isGlobal')(false)) {
+        model.destroy()
+        addon.destroy()
+      }
+    }
   }
 }
 
-const setSingletonMode = (mode: boolean) => {
-  counterContainer.isBound(ICounter) && counterContainer.unbind(ICounter)
-  const binding = counterContainer.bind(ICounter).toDynamicValue(createCounter)
-  if (mode) {
-    binding.inSingletonScope()
-  } else {
-    binding.inTransientScope()
-  }
-}
+counterContainer.bind(ICounter).toDynamicValue(createCounter)
+  .inSingletonScope()
+  .whenTargetTagged('isGlobal', true)
 
-singletonContainer.bind(TOGGLE_CALLBACK).toFunction(setSingletonMode)
-setSingletonMode(singletonContainer.get(DEFAULT_FLAG_VALUE))
+counterContainer.bind(ICounter).toDynamicValue(createCounter)
+  .inTransientScope()
+  .whenTargetTagged('isGlobal', false)

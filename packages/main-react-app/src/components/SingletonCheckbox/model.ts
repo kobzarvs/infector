@@ -1,4 +1,4 @@
-import {createEvent, createStore, Store, Event, sample} from 'effector'
+import {createEvent, createStore, Store, Event, sample, clearNode} from 'effector'
 import {inject, injectable, multiInject, optional, postConstruct} from 'inversify'
 
 
@@ -8,10 +8,11 @@ export const TOGGLE_CALLBACK = Symbol()
 
 export interface ISingletonCheckboxModel {
   value: boolean
-  isSingleton: () => boolean
-  isTransient: () => boolean
   toggleSingleton: Event<void | any>
-  getStore: () => Store<boolean>
+  isSingleton(): boolean
+  isTransient(): boolean
+  getStore(): Store<boolean>
+  destroy(): void
 }
 
 let instances = 0
@@ -31,7 +32,7 @@ export class SingletonCheckboxModel implements ISingletonCheckboxModel {
 
   @postConstruct()
   init(): void {
-    console.log('SingletonCheckbox Model', ++instances)
+    console.log('SingletonCheckbox Model', ++instances, this.defaultValue)
     this.value = this.defaultValue
     this.$singletonFlag = createStore<boolean>(this.defaultValue)
     this.toggleSingleton = createEvent()
@@ -39,7 +40,7 @@ export class SingletonCheckboxModel implements ISingletonCheckboxModel {
     this.createLogic()
   }
 
-  private createLogic = () => {
+  private createLogic() {
     this.$singletonFlag
       .on(this.toggleSingleton, state => !state)
 
@@ -54,15 +55,19 @@ export class SingletonCheckboxModel implements ISingletonCheckboxModel {
     })
   }
 
-  isSingleton = () => {
+  destroy() {
+    clearNode(this.$singletonFlag, {deep: true})
+  }
+
+  isSingleton() {
     return this.value
   }
 
-  isTransient = () => {
+  isTransient() {
     return !this.value
   }
 
-  getStore = (): Store<boolean> =>  {
+  getStore(): Store<boolean> {
     return this.$singletonFlag;
   }
 }

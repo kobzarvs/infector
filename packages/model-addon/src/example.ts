@@ -3,7 +3,8 @@ import {Container, ContainerModule} from 'inversify'
 import {modelAddonModule} from './di.config'
 import {IModel, modelModule} from '@infector/model/lib'
 import {IExternalStore, IModelAddon} from './model-addon'
-import {createStore, Event, Store} from 'effector'
+import {createEvent, createStore, Event, split, Store} from 'effector'
+import * as assert from 'assert'
 
 
 console.log('----------')

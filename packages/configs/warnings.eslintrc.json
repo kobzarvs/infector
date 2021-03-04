@@ -7,7 +7,7 @@
     ],
     "comma-dangle": ["error", "only-multiline"],
     "indent": "off",
-    "no-invalid-this": "warn",
+    "no-invalid-this": "off",
     "no-new-wrappers": "warn",
     "no-return-await": "warn",
     "no-shadow": "off",

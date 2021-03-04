@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+button {
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  padding: 2px 5px;
+  min-width: 32px;
+}
+
+button:hover {
+  box-shadow: 1px 1px 3px gray;
+  cursor: pointer;
+  transform: translate(-1px, -1px);
+  opacity: .85;
+}

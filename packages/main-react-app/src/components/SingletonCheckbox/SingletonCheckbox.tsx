@@ -1,23 +1,20 @@
 import React, { useMemo } from 'react'
 import {useStore} from 'effector-react'
+import {Event} from 'effector'
 import {singletonContainer} from './di.config'
 import {ISingletonCheckboxModel} from './model'
 
 
 interface PropsTypes {
-  defaultValue: boolean
+  onChange: Event<void | any>
+  value: boolean
 }
 
 
-export const SingletonCheckbox = ({defaultValue}: PropsTypes) => {
-  const sModel = useMemo<ISingletonCheckboxModel>(() => {
-    return singletonContainer.get<ISingletonCheckboxModel>(ISingletonCheckboxModel)
-  }, [])
-  const flag = useStore(sModel.getStore())
-
+export const SingletonCheckbox = ({onChange, value}: PropsTypes) => {
   return (
     <label style={{marginLeft: 10}}>
-      <input type="checkbox" checked={flag} onChange={sModel.toggleSingleton}/>
+      <input type="checkbox" checked={value} onChange={onChange}/>
       inSingletonScope
     </label>
   )
